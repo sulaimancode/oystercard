@@ -21,7 +21,20 @@ describe Oystercard do
 
   it "should deduct balance by £25" do
     subject.top_up(50)
-    expect{ subject.deduct (25)}.to change{ subject.balance}.by (-25)
+    expect{ subject.deduct (25) }.to change{ subject.balance }.by (-25)
+  end
+
+  it "should not be in use" do
+    expect(subject.in_journey?).to eq false
+  end
+
+  it "should note card is being used on a journey" do
+    expect{ subject.touch_in }. to change { subject.in_use }.to eq true
+  end
+
+  it "should note that journey has ended" do
+    subject.touch_in
+    expect{ subject.touch_out }. to change { subject.in_use }.to eq false
   end
 
 end
