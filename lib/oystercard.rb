@@ -15,9 +15,6 @@ MINIMUM_FARE = 1
     @balance += amount
   end
 
-  def deduct(amount)
-    @balance -= amount
-  end
 
   def in_journey?
     @in_use
@@ -29,7 +26,14 @@ MINIMUM_FARE = 1
   end
 
   def touch_out
+    deduct(MINIMUM_FARE)
     @in_use = false
+  end
+
+  private
+  
+  def deduct(amount)
+    @balance -= amount
   end
 
 end
