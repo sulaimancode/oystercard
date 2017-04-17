@@ -24,17 +24,23 @@ describe Oystercard do
     expect{ subject.deduct (25) }.to change{ subject.balance }.by (-25)
   end
 
-  it "should not be in use" do
+  it "should not be in use initially" do
     expect(subject.in_journey?).to eq false
   end
 
   it "should note card is being used on a journey" do
+    subject.top_up(50)
     expect{ subject.touch_in }. to change { subject.in_use }.to eq true
   end
 
   it "should note that journey has ended" do
+    subject.top_up(50)
     subject.touch_in
     expect{ subject.touch_out }. to change { subject.in_use }.to eq false
+  end
+
+  it "should raise an exception if balance is less than £1" do
+    expect{ subject.touch_in }.to raise_error "Insufficient funds for journey"
   end
 
 end
