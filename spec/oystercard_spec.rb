@@ -9,7 +9,7 @@ describe Oystercard do
       end
 
       it "should not be in use initially" do
-        expect(subject.in_journey?).to eq false
+        expect(subject.entry_station).to eq nil
       end
 
       it "should raise an exception if balance is less than £1" do
@@ -31,12 +31,12 @@ describe Oystercard do
       end
 
       it "should note card is being used on a journey" do
-        expect{ subject.touch_in(double) }. to change { subject.in_use }.to eq true
+        expect{ subject.touch_in("Fakerloo") }. to change { subject.entry_station }.to eq ("Fakerloo")
       end
 
       it "should note that journey has ended" do
         subject.touch_in(double)
-        expect{ subject.touch_out }. to change { subject.in_use }.to eq false
+        expect{ subject.touch_out }. to change { subject.entry_station }.to eq nil
       end
 
       it "should deduct fare from card when touching out" do
